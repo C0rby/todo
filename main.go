@@ -31,10 +31,10 @@ Usage:
 	todo mkdir <folder>
 	todo rm <folder>
 	todo head [<folder>]
-	todo cat [-i <name>]
 	todo cat ([<folder> -i <name>]|[<folder>])
-	todo [(-d|--done)] <todo>
-	todo <folder> [(-d|--done)] <todo>
+	todo cat [-i <name>]
+	todo [(-d|--done|-u|--undo)] <todo>
+	todo <folder> [(-d|--done|-u|--undo)] <todo>
 	todo -h | --help
 	todo --version
 	`
@@ -55,11 +55,15 @@ Usage:
 	} else if arguments["rm"] == true {
 		todo.RemoveDir(arguments["<folder>"].(string))
 	} else if arguments["<todo>"] != nil {
+		t := arguments["<todo>"].(string)
 		if arguments["-d"] == true || arguments["--done"] == true {
-			todo.Complete(folder, arguments["<todo>"].(string))
+			todo.Complete(folder, t)
+			return
+		} else if arguments["-u"] == true || arguments["--undo"] == true {
+			todo.Undo(folder, t)
 			return
 		}
-		todo.Add(folder, arguments["<todo>"].(string))
+		todo.Add(folder, t)
 	} else if arguments["cat"] == true {
 		if arguments["-i"] == true {
 			todo.Read(folder, arguments["<name>"].(string))

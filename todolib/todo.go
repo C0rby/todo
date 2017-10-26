@@ -80,13 +80,17 @@ func (t *Todo) ReadLinesCurrent(folder string, lines int) {
 	fmt.Print(f.ReadLines(lines))
 }
 
-func (t *Todo) Complete(folder, todo string) {
+func (t *Todo) Undo(folder, todo string) {
 	fileName := todofile.CreateName()
 	todoPath := filepath.Join(t.conf.BaseDir, folder, fileName)
 	fTodo := todofile.New(fileName, todoPath)
 	fTodo.DeleteLines(todo)
+}
 
-	doneName := fileName + "-done"
+func (t *Todo) Complete(folder, todo string) {
+	t.Undo(folder, todo)
+
+	doneName := todofile.CreateName() + "-done"
 	donePath := filepath.Join(t.conf.BaseDir, folder, doneName)
 	fDone := todofile.New(doneName, donePath)
 	fDone.Add(todo)
