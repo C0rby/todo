@@ -32,7 +32,7 @@ Usage:
 	todo rm <folder>
 	todo head [<folder>]
 	todo cat [-i <name>]
-	todo cat [<folder>] [-i <name>]
+	todo cat ([<folder> -i <name>]|[<folder>])
 	todo [(-d|--done)] <todo>
 	todo <folder> [(-d|--done)] <todo>
 	todo -h | --help
