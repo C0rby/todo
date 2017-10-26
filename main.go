@@ -31,10 +31,11 @@ Usage:
 	todo mkdir <folder>
 	todo rm <folder>
 	todo head [<folder>]
-	todo cat [<folder>]
+	todo cat [-i <name>]
+	todo cat [<folder>] [-i <name>]
+	todo [(-d|--done)] <todo>
+	todo <folder> [(-d|--done)] <todo>
 	todo -h | --help
-	todo <todo>
-	todo <folder> <todo>
 	todo --version
 	`
 	arguments, err := docopt.Parse(usage, nil, true, "todo 0.1", false)
@@ -54,8 +55,16 @@ Usage:
 	} else if arguments["rm"] == true {
 		todo.RemoveDir(arguments["<folder>"].(string))
 	} else if arguments["<todo>"] != nil {
+		if arguments["-d"] == true || arguments["--done"] == true {
+			todo.Complete(folder, arguments["<todo>"].(string))
+			return
+		}
 		todo.Add(folder, arguments["<todo>"].(string))
 	} else if arguments["cat"] == true {
+		if arguments["-i"] == true {
+			todo.Read(folder, arguments["<name>"].(string))
+			return
+		}
 		todo.ReadCurrent(folder)
 	} else if arguments["head"] == true {
 		todo.ReadLinesCurrent(folder, 5)

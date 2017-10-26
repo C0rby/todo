@@ -56,18 +56,21 @@ func (t *Todo) RemoveDir(name string) {
 	}
 }
 
-func (t *Todo) Add(folder string, todo string) {
+func (t *Todo) Add(folder, todo string) {
 	fileName := todofile.CreateName()
 	filePath := filepath.Join(t.conf.BaseDir, folder, fileName)
 	f := todofile.New(fileName, filePath)
 	f.Add(todo)
 }
 
-func (t *Todo) ReadCurrent(folder string) {
-	fileName := todofile.CreateName()
-	filePath := filepath.Join(t.conf.BaseDir, folder, fileName)
-	f := todofile.New(fileName, filePath)
+func (t *Todo) Read(folder, name string) {
+	filePath := filepath.Join(t.conf.BaseDir, folder, name)
+	f := todofile.New(name, filePath)
 	fmt.Print(f.Read())
+}
+
+func (t *Todo) ReadCurrent(folder string) {
+	t.Read(folder, todofile.CreateName())
 }
 
 func (t *Todo) ReadLinesCurrent(folder string, lines int) {
@@ -75,4 +78,16 @@ func (t *Todo) ReadLinesCurrent(folder string, lines int) {
 	filePath := filepath.Join(t.conf.BaseDir, folder, fileName)
 	f := todofile.New(fileName, filePath)
 	fmt.Print(f.ReadLines(lines))
+}
+
+func (t *Todo) Complete(folder, todo string) {
+	fileName := todofile.CreateName()
+	todoPath := filepath.Join(t.conf.BaseDir, folder, fileName)
+	fTodo := todofile.New(fileName, todoPath)
+	fTodo.DeleteLines(todo)
+
+	doneName := fileName + "-done"
+	donePath := filepath.Join(t.conf.BaseDir, folder, doneName)
+	fDone := todofile.New(doneName, donePath)
+	fDone.Add(todo)
 }

@@ -60,3 +60,26 @@ func (f *TodoFile) ReadLines(lines int) string {
 	}
 	return buffer.String()
 }
+
+func (f *TodoFile) DeleteLines(line string) {
+	file, err := os.Open(f.Path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	var buffer bytes.Buffer
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		l := scanner.Text()
+		if l != line {
+			buffer.WriteString(scanner.Text())
+			buffer.WriteByte('\n')
+		}
+	}
+	err = ioutil.WriteFile(f.Path, buffer.Bytes(), os.FileMode(0644))
+	if err != nil {
+		log.Fatal(err)
+	}
+}
