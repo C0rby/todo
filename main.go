@@ -27,15 +27,15 @@ func init() {
 func main() {
 	usage := `
 Usage:
-	todo ls [<folder>]	List files and folder
-	todo mkdir <folder>	Create folder
-	todo rm <folder>	Remove file or folder
-	todo head <name>	Show top 5 todos
-	todo cat [<folder>]	Print current file
-	todo -h | --help	Show this message
-	todo <todo>		Add a todo to current file
-	todo <folder> <todo>	Add a todo to current file in specific folder
-	todo --version		Show program version
+	todo ls [<folder>]
+	todo mkdir <folder>
+	todo rm <folder>
+	todo head <name>
+	todo cat [<folder>]
+	todo -h | --help
+	todo <todo>
+	todo <folder> <todo>
+	todo --version
 	`
 	arguments, err := docopt.Parse(usage, nil, true, "todo 0.1", false)
 	if err != nil {
