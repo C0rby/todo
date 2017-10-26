@@ -1,6 +1,8 @@
 package todofile
 
 import (
+	"bufio"
+	"bytes"
 	"io/ioutil"
 	"log"
 	"os"
@@ -40,4 +42,21 @@ func (f *TodoFile) Read() string {
 		log.Fatal(err)
 	}
 	return string(b)
+}
+
+func (f *TodoFile) ReadLines(lines int) string {
+	file, err := os.Open(f.Path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	var buffer bytes.Buffer
+
+	scanner := bufio.NewScanner(file)
+	for i := 1; i <= lines && scanner.Scan(); i++ {
+		buffer.WriteString(scanner.Text())
+		buffer.WriteByte('\n')
+	}
+	return buffer.String()
 }

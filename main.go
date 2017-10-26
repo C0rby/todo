@@ -30,7 +30,7 @@ Usage:
 	todo ls [<folder>]
 	todo mkdir <folder>
 	todo rm <folder>
-	todo head <name>
+	todo head [<folder>]
 	todo cat [<folder>]
 	todo -h | --help
 	todo <todo>
@@ -57,6 +57,8 @@ Usage:
 		todo.Add(folder, arguments["<todo>"].(string))
 	} else if arguments["cat"] == true {
 		todo.ReadCurrent(folder)
+	} else if arguments["head"] == true {
+		todo.ReadLinesCurrent(folder, 5)
 	}
 
 	//fmt.Println(arguments)

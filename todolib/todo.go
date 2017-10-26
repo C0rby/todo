@@ -59,7 +59,6 @@ func (t *Todo) RemoveDir(name string) {
 func (t *Todo) Add(folder string, todo string) {
 	fileName := todofile.CreateName()
 	filePath := filepath.Join(t.conf.BaseDir, folder, fileName)
-	fmt.Println(filePath)
 	f := todofile.New(fileName, filePath)
 	f.Add(todo)
 }
@@ -69,4 +68,11 @@ func (t *Todo) ReadCurrent(folder string) {
 	filePath := filepath.Join(t.conf.BaseDir, folder, fileName)
 	f := todofile.New(fileName, filePath)
 	fmt.Print(f.Read())
+}
+
+func (t *Todo) ReadLinesCurrent(folder string, lines int) {
+	fileName := todofile.CreateName()
+	filePath := filepath.Join(t.conf.BaseDir, folder, fileName)
+	f := todofile.New(fileName, filePath)
+	fmt.Print(f.ReadLines(lines))
 }
