@@ -27,14 +27,13 @@ func init() {
 func main() {
 	usage := `
 Usage:
-	todo ls [<folder>]
+	todo (<folder> ls| ls)
 	todo mkdir <folder>
 	todo rm <folder>
-	todo head [<folder>]
-	todo cat ([<folder> -i <name>]|[<folder>])
-	todo cat [-i <name>]
-	todo [(-d|--done|-u|--undo)] <todo>
-	todo <folder> [(-d|--done|-u|--undo)] <todo>
+	todo (<folder> head| head)
+	todo (<folder> cat [<name>]| cat [<name>])
+	todo (<folder> [(-d|--done)] <todo>| [(-d|--done)] <todo>)
+	todo (<folder> [(-u|--undo)] <todo>| [(-u|--undo)] <todo>)
 	todo -h | --help
 	todo --version
 	`
@@ -65,14 +64,13 @@ Usage:
 		}
 		todo.Add(folder, t)
 	} else if arguments["cat"] == true {
-		if arguments["-i"] == true {
+		if arguments["<name>"] == nil {
+			todo.ReadCurrent(folder)
+		} else {
 			todo.Read(folder, arguments["<name>"].(string))
-			return
 		}
-		todo.ReadCurrent(folder)
 	} else if arguments["head"] == true {
 		todo.ReadLinesCurrent(folder, 5)
 	}
-
 	//fmt.Println(arguments)
 }

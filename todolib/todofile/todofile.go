@@ -39,7 +39,9 @@ func (f *TodoFile) Add(todo string) {
 func (f *TodoFile) Read() string {
 	b, err := ioutil.ReadFile(f.Path)
 	if err != nil {
-		log.Fatal(err)
+		if !os.IsNotExist(err) {
+			log.Fatal(err)
+		}
 	}
 	return string(b)
 }
